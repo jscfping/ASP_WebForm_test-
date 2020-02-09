@@ -9,6 +9,12 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label1.Text = "Hello, World!";
+        Label1.Text = "留言板";
+    }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        //GridView2.DataSourceID = "";
+        //GridView2.DataSourceID = "SqlDataSource2";
     }
 }
