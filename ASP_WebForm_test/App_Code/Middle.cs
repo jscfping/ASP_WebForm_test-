@@ -4,37 +4,47 @@ using System.Linq;
 using System.Web;
 
 /// <summary>
-/// Middle 的摘要描述
+/// middle 的摘要描述
 /// </summary>
-public class Middle
+/// 
+public partial class ASPdemo
 {
-    public static bool IsLoggin()
+    public class Middle
     {
-        try
-        {
 
-            if (HttpContext.Current.Session["login"].ToString() == "ok")
+
+        public static bool IsLoggin()
+        {
+            try
             {
-                return true;
+
+                if (HttpContext.Current.Session["currentUser"].ToString() != "")
+                {
+                    return true;
+                }
+
             }
+            catch
+            {
+
+            }
+            return false;
 
         }
-        catch
+
+        public static void SetUserInfo(string uid, string username)
         {
-
+            HttpContext.Current.Session["currentUser"] = username;
+            HttpContext.Current.Response.Cookies["userInfo"]["username"] = username;
         }
-        return false;
 
-    }
+        public static void Reload(string where)
+        {
+            HttpContext.Current.Response.Redirect(where);
+        }
 
-    public static void SetUserInfo(string uid, string username)
-    {
-        HttpContext.Current.Session["login"] = "ok";
-        HttpContext.Current.Response.Cookies["userInfo"]["username"] = username;
-    }
 
-    public static void Reload(string where)
-    {
-        HttpContext.Current.Response.Redirect(where);
+
     }
 }
+    
