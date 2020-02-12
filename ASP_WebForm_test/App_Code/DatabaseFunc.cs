@@ -33,7 +33,7 @@ public partial class ASPdemo
                 }
                 catch (Exception ex)
                 {
-                    HttpContext.Current.Response.Write(ex.Message);
+                    throw ex;
                 }
             }
         }
@@ -53,17 +53,18 @@ public partial class ASPdemo
                 {
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
-                    result = reader.GetSchemaTable();
-
+                    if (reader.HasRows)
+                    {
+                        result = new DataTable();
+                        result.Load(reader);
+                    }
                     command.Cancel();    //cancel first to break continuing
                     reader.Close();
                     connection.Close();
-                    return reader.GetSchemaTable();
-
                 }
                 catch (Exception ex)
                 {
-                    HttpContext.Current.Response.Write(ex.Message);
+                    throw ex;
                 }
             }
             return result;
@@ -80,8 +81,4 @@ public partial class ASPdemo
     }
 
 
-    public class Order : DatabaseFunc
-    {
-
-    }
 }

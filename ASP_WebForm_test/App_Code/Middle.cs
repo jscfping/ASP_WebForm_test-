@@ -13,38 +13,55 @@ public partial class ASPdemo
     {
 
 
-        public static bool IsLoggin()
+        public static bool IsLogin()
         {
             try
             {
-
                 if (HttpContext.Current.Session["currentUser"].ToString() != "")
                 {
                     return true;
                 }
-
             }
             catch
             {
 
             }
             return false;
+        }
 
+        public static void LoginedToGo()
+        {
+            if (IsLogin())
+            {
+                HttpContext.Current.Response.Redirect("/");
+            }
+        }
+        public static void LoginedToGo(string where)
+        {
+            if (IsLogin())
+            {
+                HttpContext.Current.Response.Redirect(where);
+            }
+        }
+
+        public static void NeedLogin()
+        {
+            if (!IsLogin())
+            {
+                HttpContext.Current.Response.Redirect("/login.aspx");
+            }
         }
 
         public static void SetUserInfo(string uid, string username)
         {
-            HttpContext.Current.Session["currentUser"] = username;
-            HttpContext.Current.Response.Cookies["userInfo"]["username"] = username;
-        }
-
-        public static void Reload(string where)
-        {
-            HttpContext.Current.Response.Redirect(where);
+            HttpContext.Current.Session["currentUser"] = uid;
+            HttpContext.Current.Response.Cookies["username"].Value = username;
         }
 
 
 
-    }
+
+
+}
 }
     

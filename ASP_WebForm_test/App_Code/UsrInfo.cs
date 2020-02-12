@@ -16,52 +16,55 @@ public partial class ASPdemo
     {
         public string uid;
         public string username;
-        private int money;
 
-
-
-        public UserInfo(string usr, string pw)
+        private UserInfo(string uid, string usr)
         {
-            username = usr;
-            DataTable dt = DatabaseFunc.User.GetInfo(username);
+            this.uid = uid;
+            this.username = usr;
+        }
 
-            if (dt == null)
+
+        public static UserInfo Login(string usr, string pw)
+        {
+            DataTable dt = DatabaseFunc.User.GetInfo(usr);
+
+            if (dt != null)
             {
-                DatabaseFunc.User.Add(username, pw);
-                uid = (string)dt.Rows[0]["uid"];
+                string saltedpw = ASPdemo.Func.Encrypt(ASPdemo.Func.Salt + pw);
 
-                //foreach (DataRow row in data.Rows)
-                //{
-                //    foreach (DataColumn column in data.Columns)
-                //    {
-                //        Console.WriteLine(String.Format("{0} = {1}",
-                //           column.ColumnName, row[column]));
-                //    }
-                //}
+                if (saltedpw == (string)dt.Rows[0]["password"])
+                {
+                    ASPdemo.Middle.SetUserInfo(dt.Rows[0]["uid"].ToString(), usr);
+                    return new UserInfo(dt.Rows[0]["uid"].ToString(), usr);
+                }
+                else
+                {
+                    throw new System.Exception("password is wrong");
+                }
             }
             else
             {
-                throw new System.ArgumentException("create fail, because username already exists", "UserInfo");
-            }
-
-
-        }
-
-        public int Money
-        {
-            get
-            {
-                return money;
-            }
-            set
-            {
-                money = value;
+                throw new System.Exception("this username doesn't exists");
             }
         }
 
-        public int GetDoubleMoney()
+
+        public static UserInfo AddNewUser(string usr, string pw)
         {
-            return (money * 2);
+            string saltedpw = ASPdemo.Func.Encrypt(ASPdemo.Func.Salt + pw);
+            DataTable dt = DatabaseFunc.User.GetInfo(usr);
+
+            if (dt == null)
+            {
+                DatabaseFunc.User.Add(usr, saltedpw);
+                dt = DatabaseFunc.User.GetInfo(usr);
+                DatabaseFunc.Order.CreateNewShopcart(dt.Rows[0]["uid"].ToString());
+                return Login(usr, pw);
+            }
+            else
+            {
+                throw new System.Exception("create fail, because username already exists");
+            }
         }
 
 
@@ -80,19 +83,16 @@ public partial class ASPdemo
             public static void Add(string usr, string pw)
             {
                 string queryString = "insert into users(username,password) values(@usr, @pw)";
-
                 SqlCommand command = new SqlCommand(queryString);
                 command.Parameters.Add("@usr", SqlDbType.NVarChar, 50).Value = usr;
                 command.Parameters.Add("@pw", SqlDbType.NVarChar, 256).Value = pw;
-
                 DBInsert(command);
-
             }
 
             public static DataTable GetInfo(string usr)
             {
-                string queryString = "select * from @usr";
-                SqlCommand command = new SqlCommand(queryString);
+                string qy = "select * from users where username = @usr";
+                SqlCommand command = new SqlCommand(qy);
                 command.Parameters.AddWithValue("@usr", usr);
 
                 return DBQuery(command);

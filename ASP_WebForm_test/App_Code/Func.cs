@@ -39,5 +39,22 @@ public partial class ASPdemo
 
             return str;
         }
+
+        public static void ShowError(Exception ex)
+        {
+            HttpContext.Current.Response.Write("=====================</br>");
+            HttpContext.Current.Response.Write("Message: " + ex.Message + "</br>");
+            HttpContext.Current.Response.Write("=====================</br>");
+        }
+
+        public static void ShowError(Exception ex, bool isDebug)
+        {
+            ShowError(ex);
+            if (isDebug)
+            {
+                HttpContext.Current.Response.Write(ex.StackTrace + "</br>");
+                HttpContext.Current.Response.Write("=====================</br>");
+            }
+        }
     }
 }

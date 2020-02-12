@@ -12,7 +12,7 @@ public partial class _Default : System.Web.UI.Page
     {
         Label1.Text = "留言板";
 
-        if (Middle.IsLoggin())
+        if (ASPdemo.Middle.IsLogin())
         {
             Panel1.Visible = false;
             Panel2.Visible = true;
@@ -27,7 +27,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Button2_Click(object sender, EventArgs e)
     {
-        Middle.SetUserInfo("123uid", TextBox3.Text);
-        Middle.Reload(here);
+        ASPdemo.Middle.SetUserInfo("123uid", TextBox3.Text);
+        Response.Redirect(here);
     }
 }
