@@ -15,7 +15,7 @@ public partial class ASPdemo
     public partial class DatabaseFunc
     {
 
-        public static void DBInsert(SqlCommand command)
+        public static void DBRun(SqlCommand command)
         {
             SqlConnection Conn = new SqlConnection();
             string connectionString = WebConfigurationManager.ConnectionStrings["asp_demoConnectionString"].ConnectionString;

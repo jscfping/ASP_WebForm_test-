@@ -10,6 +10,5 @@ public partial class order : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         ASPdemo.Middle.NeedLogin();
-        Response.Write("test");
     }
 }

@@ -16,12 +16,13 @@ public partial class login : System.Web.UI.Page
     {
         try
         {
-            ASPdemo.UserInfo usr = ASPdemo.UserInfo.Login(TextBox1.Text, TextBox2.Text);
+            ASPdemo.Middle.Login(TextBox1.Text, TextBox2.Text);
+            Response.Redirect("/shop.aspx");
             Response.Redirect("/");
         }
         catch (Exception ex)
         {
-            ASPdemo.Func.ShowError(ex, true);
+            ASPdemo.Func.ShowError(ex);
         }
     }
 }

@@ -11,4 +11,18 @@ public partial class shopcart : System.Web.UI.Page
     {
         ASPdemo.Middle.NeedLogin();
     }
+
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            ASPdemo.Middle.GetCurrentUser().Checkout();
+            Response.Redirect("/order.aspx");
+        }
+        catch (Exception ex)
+        {
+            ASPdemo.Func.ShowError(ex);
+        }
+        
+    }
 }

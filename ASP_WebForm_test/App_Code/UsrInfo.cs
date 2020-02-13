@@ -14,57 +14,36 @@ public partial class ASPdemo
 {
     public class UserInfo
     {
-        public string uid;
-        public string username;
+        public string Uid { get; set; }
+        public string Username { get; set; }
+        public string ShoppingCartId { get; set; }
 
-        private UserInfo(string uid, string usr)
+        public UserInfo(string uid, string username, string shoppingCartId)
         {
-            this.uid = uid;
-            this.username = usr;
+            Uid = uid;
+            Username = username;
+            ShoppingCartId = shoppingCartId;
         }
 
-
-        public static UserInfo Login(string usr, string pw)
-        {
-            DataTable dt = DatabaseFunc.User.GetInfo(usr);
-
-            if (dt != null)
-            {
-                string saltedpw = ASPdemo.Func.Encrypt(ASPdemo.Func.Salt + pw);
-
-                if (saltedpw == (string)dt.Rows[0]["password"])
-                {
-                    ASPdemo.Middle.SetUserInfo(dt.Rows[0]["uid"].ToString(), usr);
-                    return new UserInfo(dt.Rows[0]["uid"].ToString(), usr);
-                }
-                else
-                {
-                    throw new System.Exception("password is wrong");
-                }
-            }
-            else
-            {
-                throw new System.Exception("this username doesn't exists");
-            }
-        }
-
-
-        public static UserInfo AddNewUser(string usr, string pw)
+        public static void AddUser(string usr, string pw)
         {
             string saltedpw = ASPdemo.Func.Encrypt(ASPdemo.Func.Salt + pw);
             DataTable dt = DatabaseFunc.User.GetInfo(usr);
 
             if (dt == null)
             {
-                DatabaseFunc.User.Add(usr, saltedpw);
-                dt = DatabaseFunc.User.GetInfo(usr);
-                DatabaseFunc.Order.CreateNewShopcart(dt.Rows[0]["uid"].ToString());
-                return Login(usr, pw);
+                Guid uid = DatabaseFunc.User.Add(usr, saltedpw);
+                DatabaseFunc.Order.CreateNewShopcart(uid);
             }
             else
             {
-                throw new System.Exception("create fail, because username already exists");
+                throw new Exception("create fail, because username already exists");
             }
+        }
+
+        public void Checkout()
+        {
+            Order.ShopcartToOrder(this);
         }
 
 
@@ -75,23 +54,27 @@ public partial class ASPdemo
 {
     public partial class DatabaseFunc
     {
-
-
         public class User : DatabaseFunc
         {
 
-            public static void Add(string usr, string pw)
+            public static Guid Add(string usr, string pw)
             {
-                string queryString = "insert into users(username,password) values(@usr, @pw)";
+                //there could not be a return id, so make it here
+                Guid uId = Guid.NewGuid();
+                string queryString = "INSERT INTO users(uid, username, password) VALUES(@uid, @usr, @pw)";
                 SqlCommand command = new SqlCommand(queryString);
+                command.Parameters.Add("@uid", SqlDbType.UniqueIdentifier).Value = uId;
                 command.Parameters.Add("@usr", SqlDbType.NVarChar, 50).Value = usr;
                 command.Parameters.Add("@pw", SqlDbType.NVarChar, 256).Value = pw;
-                DBInsert(command);
+                DBRun(command);
+                return uId;
             }
 
             public static DataTable GetInfo(string usr)
             {
-                string qy = "select * from users where username = @usr";
+                string qy = "SELECT A.*, B.shop_cart_id "
+                    + "FROM [users]A, [shop_carts]B "
+                    + "WHERE A.username = @usr and B.customer_id=A.uid";
                 SqlCommand command = new SqlCommand(qy);
                 command.Parameters.AddWithValue("@usr", usr);
 

@@ -11,8 +11,21 @@
     <form id="form1" runat="server">
         <div>
             <br />
-            <asp:Label ID="Label4" runat="server" Text="歡迎光臨本賣場"></asp:Label>
+            <asp:Label ID="Label4" runat="server"></asp:Label>
             <br />
+            <br />
+            <br />
+            <br />
+            
+            <br />
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/shopcart.aspx">購物車</asp:HyperLink>
+            <br />
+            <br />
+            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/order.aspx">訂單</asp:HyperLink>
+            <br />
+            <br />
+            <br />
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="登出" />
             <br />
             <br />
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None">
@@ -27,11 +40,12 @@
                             <asp:Image ID="Image1" runat="server" ImageAlign="Middle" ImageUrl='<%# Eval("img") %>' Width="200px" />
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="產品" SortExpression="item_name">
+                    <asp:TemplateField HeaderText="產品名稱" SortExpression="item_name">
                         <EditItemTemplate>
                             <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("item_name") %>'></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
+                            <asp:Label ID="lbl_itemid" runat="server" Text='<%# Eval("item_id") %>' Visible="False"></asp:Label>
                             <asp:Label ID="Label1" runat="server" Text='<%# Bind("item_name") %>' Width="100px"></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>

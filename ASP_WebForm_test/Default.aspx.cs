@@ -10,6 +10,7 @@ public partial class _Default : System.Web.UI.Page
     private string here = "/Default.aspx";
     protected void Page_Load(object sender, EventArgs e)
     {
+        Response.Redirect("/shop.aspx");
         Label1.Text = "留言板";
 
         if (ASPdemo.Middle.IsLogin())
@@ -27,7 +28,6 @@ public partial class _Default : System.Web.UI.Page
 
     protected void Button2_Click(object sender, EventArgs e)
     {
-        ASPdemo.Middle.SetUserInfo("123uid", TextBox3.Text);
         Response.Redirect(here);
     }
 }

@@ -28,6 +28,7 @@
             <asp:Button ID="Button1" runat="server" Text="登錄" OnClick="Button1_Click" />
             <br />
             <br />
+            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/register.aspx">前往註冊</asp:HyperLink>
             <br />
             <br />
             <br />
