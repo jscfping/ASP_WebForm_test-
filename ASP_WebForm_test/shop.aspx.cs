@@ -28,10 +28,6 @@ public partial class shop : System.Web.UI.Page
                 ASPdemo.Func.ShowError(ex);
             }
         }
-        else
-        {
-            Response.Redirect("/login.aspx");
-        }
 
     }
 

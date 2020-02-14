@@ -43,7 +43,17 @@ public partial class ASPdemo
 
         public void Checkout()
         {
-            Order.ShopcartToOrder(this);
+            string shopCartId = Middle.GetCurrentUser().ShoppingCartId.ToString();
+            DataTable dt = DatabaseFunc.Order.GetShopcart(shopCartId);
+            if (dt != null)
+            {
+                Order.ShopcartToOrder(this);
+            }
+            else
+            {
+                throw new Exception("nothing in shopping cart");
+            }
+            
         }
 
 

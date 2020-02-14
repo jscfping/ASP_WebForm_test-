@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
 </head>
 <body>
@@ -13,20 +13,15 @@
             <br />
             <asp:Label ID="Label4" runat="server"></asp:Label>
             <br />
+            <a href="/">回首頁</a><br />
             <br />
+            <a href="/shop.aspx">商店</a><br />
             <br />
+            <a href="/shopcart.aspx">購物車</a><br />
             <br />
-            
+            <a href="/order.aspx">交易記錄</a><br />
             <br />
-            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/shopcart.aspx">購物車</asp:HyperLink>
-            <br />
-            <br />
-            <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/order.aspx">訂單</asp:HyperLink>
-            <br />
-            <br />
-            <br />
-            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="登出" />
-            <br />
+            <a href="/logout.aspx">登出</a><br />
             <br />
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None">
                 <AlternatingRowStyle BackColor="White" />
@@ -87,7 +82,7 @@
             <br />
             <br />
             <br />
-            <br />
+
             <br />
             <br />
             <br />

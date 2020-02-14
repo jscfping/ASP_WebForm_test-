@@ -112,6 +112,7 @@ public partial class ASPdemo
         public static void Logout(string where)
         {
             HttpContext.Current.Session["currentUser"] = null;
+            HttpContext.Current.Session["uid"] = null;
             HttpContext.Current.Response.Redirect(where);
         }
 

@@ -4,12 +4,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>
+            <br />
+            <a href="/">回首頁</a><br />
+            <br />
+            <a href="/shop.aspx">商店</a><br />
+            <br />
+            <a href="/shopcart.aspx">購物車</a><br />
+            <br />
+            <a href="/order.aspx">交易記錄</a><br />
+            <br />
+            <a href="/logout.aspx">登出</a><br />
+            <br />
             <br />
             訂單如下:<br />
             <br />
@@ -40,11 +51,14 @@
                 <SortedDescendingCellStyle BackColor="#FFFDF8" />
                 <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
             </asp:GridView>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:asp_demoConnectionString %>" SelectCommand="SELECT  DISTINCT B.img, B.item_name, A.price, A.quantity 
-FROM [order_details]A, [items]B, [orders]C
-WHERE A.item_id=B.item_id and A.order_id=@oid">
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:asp_demoConnectionString %>" SelectCommand="SELECT  B.img, B.item_name, A.price, A.quantity 
+FROM [order_details]A, [items]B, [orders]C, [users]D
+WHERE A.item_id=B.item_id
+and A.order_id=@oid
+and A.order_id=C.order_id and C.customer_id=D.uid and D.uid=@uid">
                 <SelectParameters>
                     <asp:QueryStringParameter Name="oid" QueryStringField="oid" />
+                    <asp:SessionParameter Name="uid" SessionField="uid" />
                 </SelectParameters>
             </asp:SqlDataSource>
             <br />

@@ -12,6 +12,17 @@
         <div>
             <br />
             <br />
+            <a href="/">回首頁</a><br />
+            <br />
+            <a href="/shop.aspx">商店</a><br />
+            <br />
+            <a href="/shopcart.aspx">購物車</a><br />
+            <br />
+            <a href="/order.aspx">交易記錄</a><br />
+            <br />
+            <a href="/logout.aspx">登出</a><br />
+            <br />
+            <br />
             <br />
             採購清單：<br />
             <br />

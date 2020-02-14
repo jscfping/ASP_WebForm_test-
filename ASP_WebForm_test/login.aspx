@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/style.css">
 </head>
@@ -31,6 +31,7 @@
             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/register.aspx">前往註冊</asp:HyperLink>
             <br />
             <br />
+            <a href="/">回首頁</a><br />
             <br />
         </div>
     </form>
