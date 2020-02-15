@@ -56,6 +56,11 @@ public partial class ASPdemo
             
         }
 
+        public DataTable GetShopCartDataTable()
+        {
+            return DatabaseFunc.Order.GetShopcart(ShoppingCartId);
+        }
+
 
     }
 }

@@ -21,7 +21,7 @@ public partial class login : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ASPdemo.Func.ShowError(ex);
+            ASPdemo.Func.ShowError(ex, PanelFlash, LabelFlash);
         }
     }
 }

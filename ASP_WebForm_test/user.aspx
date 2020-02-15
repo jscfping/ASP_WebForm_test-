@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="user.aspx.cs" Inherits="user" %>
 
 <!DOCTYPE html>
 
@@ -72,28 +72,58 @@
             </asp:Panel>
 
             <div class="card">
-                <div class="card-header">登入</div>
+                <h3 class="card-header">個人首頁</h3>
+
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <div>
-                                    <label>帳號</label>
-                                    <asp:TextBox ID="TextBox1" runat="server" CssClass="form-control"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" CssClass="alert-danger" ErrorMessage="請勿空白" Display="Dynamic"></asp:RequiredFieldValidator>
-                                </div>
-                                <div>
-                                    <label>密碼</label>
-                                    <asp:TextBox ID="TextBox2" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBox2" CssClass="alert-danger" ErrorMessage="請勿空白" Display="Dynamic"></asp:RequiredFieldValidator>
-                                </div>
-                                <div>
-                                    <asp:Button ID="Button2" runat="server" Text="登錄" OnClick="Button1_Click" CssClass="btn btn-outline-success" />
-                                </div>
-                            </div>
+                    <p class="card-text">uid: <%= ASPdemo.Middle.GetCurrentUser().Uid %></p>
+                    <p class="card-text">user: <%= ASPdemo.Middle.GetCurrentUser().Username %></p>
+
+                    <div class="card alert-success">
+                        <h3 class="card-header">交易記錄</h3>
+                        <div class="card-body">
+                            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource1" AllowPaging="True" AllowSorting="True" CellPadding="4" GridLines="None" ForeColor="#333333">
+                                <AlternatingRowStyle BackColor="White" />
+                                <Columns>
+                                    <asp:TemplateField HeaderText="項目">
+                                        <ItemTemplate>
+                                            <%#Container.DataItemIndex + 1%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="datetime" HeaderText="時間" SortExpression="datetime" DataFormatString="{0:yyyy/MM/dd HH:mm:ss}" />
+                                    <asp:TemplateField HeaderText="訂單編號" SortExpression="order_id">
+                                        <EditItemTemplate>
+                                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("order_id") %>'></asp:TextBox>
+                                        </EditItemTemplate>
+                                        <ItemTemplate>
+                                            <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# "/orderdetail.aspx?oid=" + Eval("order_id") %>' Text='<%# Eval("order_id") %>'></asp:HyperLink>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+
+                                </Columns>
+                                <EditRowStyle BackColor="#7C6F57" />
+                                <FooterStyle BackColor="#1C5E55" ForeColor="White" Font-Bold="True" />
+                                <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                                <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+                                <RowStyle BackColor="#E3EAEB" />
+                                <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+                                <SortedAscendingCellStyle BackColor="#F8FAFA" />
+                                <SortedAscendingHeaderStyle BackColor="#246B61" />
+                                <SortedDescendingCellStyle BackColor="#D4DFE1" />
+                                <SortedDescendingHeaderStyle BackColor="#15524A" />
+                            </asp:GridView>
+                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:asp_demoConnectionString %>" SelectCommand="SELECT A.* 
+FROM [orders]A, [users]B
+WHERE A.customer_id=B.uid and B.uid=@uid
+
+
+">
+                                <SelectParameters>
+                                    <asp:SessionParameter Name="uid" SessionField="uid" />
+                                </SelectParameters>
+                            </asp:SqlDataSource>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

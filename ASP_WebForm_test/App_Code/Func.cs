@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.UI.WebControls;
 
 /// <summary>
 /// func 的摘要描述
@@ -47,6 +48,22 @@ public partial class ASPdemo
             HttpContext.Current.Response.Write("=====================</br>");
             HttpContext.Current.Response.Write(ex.StackTrace + "</br>");
             HttpContext.Current.Response.Write("=====================</br>");
+        }
+        public static void ShowError(Exception ex, Panel pnl, Label lbl)
+        {
+            pnl.Visible = true;
+            lbl.Text = "=====================</br>";
+            lbl.Text += "Error Message: " + ex.Message + "</br>";
+            lbl.Text += "=====================</br>";
+            lbl.Text += ex.StackTrace + "</br>";
+            lbl.Text += "=====================</br>";
+        }
+
+        public static void ResetGridView(GridView gv, string sqlSrcId)
+        {
+            gv.DataSourceID = "";
+            gv.DataSourceID = sqlSrcId;
+            gv.DataBind();
         }
 
     }

@@ -10,22 +10,16 @@ public partial class shop : System.Web.UI.Page
     string here = "/shop.aspx";
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        Label4.Text = "歡迎光臨本賣場";
         GridView1.Columns[5].Visible = false;
-
         if (ASPdemo.Middle.IsLogin())
         {
             try
             {
-                ASPdemo.UserInfo currentusr = ASPdemo.Middle.GetCurrentUser();
-
-                Label4.Text = currentusr.Username + ", " + Label4.Text;
                 GridView1.Columns[5].Visible = true;
             }
             catch (Exception ex)
             {
-                ASPdemo.Func.ShowError(ex);
+                ASPdemo.Func.ShowError(ex, PanelFlash, LabelFlash);
             }
         }
 
@@ -47,7 +41,7 @@ public partial class shop : System.Web.UI.Page
         }
         catch(Exception ex)
         {
-            ASPdemo.Func.ShowError(ex);
+            ASPdemo.Func.ShowError(ex, PanelFlash, LabelFlash);
         }
 
 
@@ -58,8 +52,4 @@ public partial class shop : System.Web.UI.Page
         ASPdemo.Middle.Logout(here);
     }
 
-    protected void Button3_Click(object sender, EventArgs e)
-    {
-        
-    }
 }

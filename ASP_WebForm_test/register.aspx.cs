@@ -22,7 +22,7 @@ public partial class register : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            ASPdemo.Func.ShowError(ex);
+            ASPdemo.Func.ShowError(ex, PanelFlash, LabelFlash);
         }
     }
 }
