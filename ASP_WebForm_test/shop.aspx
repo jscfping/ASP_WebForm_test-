@@ -126,7 +126,10 @@
                 <SortedDescendingHeaderStyle BackColor="#15524A" />
             </asp:GridView>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:asp_demoConnectionString %>" SelectCommand="SELECT * FROM [items]"></asp:SqlDataSource>
-        <a href="/shopcart.aspx" class="btn btn-outline-success float-right">至購物車結帳</a>
+            <% if (Session["currentUser"] != null) %>
+            <% { %>
+            <a href="/shopcart.aspx" class="btn btn-outline-success float-right">至購物車結帳</a>
+            <% } %>
         </div>
     </form>
     <!--#include file= ".\views\partials\js.aspx" -->
